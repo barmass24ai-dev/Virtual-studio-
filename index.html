@@ -1,18 +1,19 @@
-<!doctype html><html lang="it"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no"><title>Virtual Studio v0.6</title>
+<!doctype html><html lang="it"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no"><title>Virtual Studio v0.6.2</title>
 <style>*{box-sizing:border-box}body{margin:0;overflow:hidden;background:#090d13;color:#eef4fa;font:14px system-ui}header{height:56px;display:flex;align-items:center;gap:7px;padding:8px 12px;background:#111822;border-bottom:1px solid #293747}.brand{font-weight:800;margin-right:auto;letter-spacing:.08em}.brand b{color:#67dcff}button,select{background:#1b2734;color:white;border:1px solid #3b4d61;border-radius:8px;padding:8px}.on{background:#174455;border-color:#67dcff}.main{height:calc(100vh - 140px);display:grid;grid-template-columns:210px 1fr 225px}.panel{background:#141c26;padding:12px;overflow:auto}.view{position:relative;touch-action:none;border-left:1px solid #293747;border-right:1px solid #293747}canvas{display:block;width:100%;height:100%}h3{font-size:12px;color:#6bdcff;letter-spacing:.08em}label{display:block;color:#9cabbc;margin-top:12px;font-size:12px}input{width:100%}.val{float:right;color:white}.cams{display:grid;grid-template-columns:1fr 1fr;gap:6px}.hud{position:absolute;top:10px;left:10px;background:#071019cc;padding:8px;border-radius:7px}.hint{position:absolute;right:10px;bottom:10px;color:#aab6c3}.note{font-size:12px;color:#95a4b5;line-height:1.4;margin-top:15px}.timeline{height:84px;background:#101720;border-top:1px solid #293747;padding:10px 14px}.track{height:35px;border:1px solid #34465a;margin-top:8px;position:relative;background:repeating-linear-gradient(90deg,#17212d 0 49px,#293747 50px)}#head{position:absolute;height:100%;width:2px;background:#ffd166}@media(max-width:820px){.main{grid-template-columns:175px 1fr 185px}.panel{padding:9px}}
 #importGLB{width:100%;margin-top:10px}.assetStatus{font-size:11px;color:#86dfff;margin-top:7px}
 #photoModal{display:none;position:fixed;inset:0;background:#05080de8;z-index:50;align-items:center;justify-content:center;padding:24px}
 #photoCard{max-width:92vw;max-height:92vh;background:#111a24;border:1px solid #40536a;border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:10px}
-#photoPreview{max-width:86vw;max-height:72vh;object-fit:contain;background:#000}
+#photoPreview{display:block;max-width:86vw;max-height:72vh;width:auto;height:auto;background:#000;border-radius:6px}
 .photoActions{display:flex;justify-content:flex-end;gap:8px}
 </style></head><body>
-<header><div class="brand">VIRTUAL STUDIO <b>v0.6 • REAL CHARACTER PIPELINE</b></div><button id="live">LIVE</button><button id="freeze">FREEZE</button><button id="play">PLAY</button><button id="photo">PHOTO</button></header>
+<header><div class="brand">VIRTUAL STUDIO <b>v0.6.2 • REAL CHARACTER PIPELINE</b></div><button id="live">LIVE</button><button id="freeze">FREEZE</button><button id="play">PLAY</button><button id="photo">PHOTO</button></header>
 <div class="main"><aside class="panel"><h3>CHARACTER</h3><label>Body rotation <span class="val" id="rv">0°</span></label><input id="rot" type="range" min="-180" max="180" value="0"><label>Left arm <span class="val" id="lv">12°</span></label><input id="la" type="range" min="-45" max="70" value="12"><label>Right arm <span class="val" id="av">-12°</span></label><input id="ra" type="range" min="-70" max="45" value="-12"><label>Skin tone</label><select id="skin"><option value="tan">Amber / tan</option><option value="neutral">Neutral</option><option value="deep">Deep</option></select><button id="importGLB">IMPORT CHARACTER .GLB</button><input id="glbFile" type="file" accept=".glb,.gltf" hidden><div class="assetStatus" id="assetStatus">Procedural fallback active</div><div class="note">Corpo procedurale arrotondato: preview anatomica, non ancora Character Master definitivo.</div></aside>
 <main class="view" id="view"><div class="hud">CAM <b id="cam">01</b> · <span id="mode">READY</span><br><span id="fps">HAIR 960 STRANDS</span></div><div class="hint">Trascina: orbita · rotella/pizzica: zoom</div></main>
 <aside class="panel"><h3>HAIR PHYSICS LAB</h3><div class="cams"><button class="cb on" data-i="0">CAM 01</button><button class="cb" data-i="1">CAM 02</button><button class="cb" data-i="2">CAM 03</button><button class="cb" data-i="3">CAM 04</button></div><label>Hair length <span class="val" id="hlv">1.00</span></label><input id="hairLen" type="range" min=".55" max="1.25" step=".01" value="1"><label>Wind <span class="val" id="wv">0.7</span></label><input id="wind" type="range" min="0" max="2.5" step=".1" value=".7"><label>Inertia <span class="val" id="iv">0.84</span></label><input id="inertia" type="range" min=".55" max=".98" step=".01" value=".84"><label>Face cover <span class="val" id="fcv">20%</span></label><input id="faceCover" type="range" min="0" max="100" value="20"><div class="note">960 fili con hairline, riga decentrata e masse frontali/laterali/posteriori. LIVE applica vento e inerzia.</div></aside></div>
 <footer class="timeline"><b>TIMELINE</b> <span id="time">00:00.00</span><div class="track"><div id="head"></div></div></footer>
 <script type="module">
 import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js';
+import { GLTFLoader } from 'https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/loaders/GLTFLoader.js';
 const $=x=>document.getElementById(x), host=$('view');
 const scene=new THREE.Scene(); scene.background=new THREE.Color(0x0b1119);scene.fog=new THREE.Fog(0x0b1119,7,14);
 const camera=new THREE.PerspectiveCamera(38,1,.05,50);camera.position.set(0,1.45,5.2);
@@ -75,9 +76,9 @@ $('glbFile').onchange=async(e)=>{
  const f=e.target.files[0]; if(!f)return;
  $('assetStatus').textContent='Loading '+f.name+'…';
  try{
-  if(!THREE.GLTFLoader) throw new Error('GLTFLoader not loaded');
+  
   const buf=await f.arrayBuffer();
-  new THREE.GLTFLoader().parse(buf,'',(gltf)=>{
+  new GLTFLoader().parse(buf,'',(gltf)=>{
    if(window.__realCharacter)person.remove(window.__realCharacter);
    const root=gltf.scene; window.__realCharacter=root;
    // hide procedural anatomy but keep hair rig; imported model becomes the visual body
@@ -87,13 +88,31 @@ $('glbFile').onchange=async(e)=>{
    let targetH=3.0, scale=targetH/Math.max(size.y,.001); root.scale.setScalar(scale);
    root.position.set(-ctr.x*scale,-box.min.y*scale-.76,-ctr.z*scale);
    person.add(root); $('assetStatus').textContent='REAL GLB ACTIVE · '+f.name;
-  },err=>{$('assetStatus').textContent='GLB error: '+err.message});
- }catch(err){$('assetStatus').textContent='Import error: '+err.message}
+  },err=>{$('assetStatus').textContent='GLB PARSE ERROR · '+err.message});
+ }catch(err){$('assetStatus').textContent='IMPORT ERROR · '+err.message}
 };
 requestAnimationFrame(animate);let dt=Math.min((now-last)/1000,.04);last=now;if(live||play)t+=dt;resize();person.rotation.y=+$('rot').value*Math.PI/180;uaL.rotation.z=+$('la').value*Math.PI/180;uaR.rotation.z=+$('ra').value*Math.PI/180;updateHair();camera.position.set(Math.sin(yaw)*Math.cos(pitch)*dist,1.25+Math.sin(pitch)*dist,Math.cos(yaw)*Math.cos(pitch)*dist);camera.lookAt(0,.75,0);renderer.render(scene,camera);$('time').textContent='00:'+(t%10).toFixed(2).padStart(5,'0');$('head').style.left=((t%10)*10)+'%'}animate(performance.now());
 [['rot','rv',x=>x+'°'],['la','lv',x=>x+'°'],['ra','av',x=>x+'°'],['hairLen','hlv',x=>(+x).toFixed(2)],['wind','wv',x=>(+x).toFixed(1)],['inertia','iv',x=>(+x).toFixed(2)],['faceCover','fcv',x=>x+'%']].forEach(a=>$(a[0]).oninput=()=>$(a[1]).textContent=a[2]($(a[0]).value));
-$('skin').onchange=()=>skin.color.set({tan:0xb87552,neutral:0xc88e72,deep:0x704632}[$('skin').value]);$('live').onclick=()=>{live=!live;$('live').classList.toggle('on',live);$('mode').textContent=live?'LIVE PHYSICS':'READY'};$('freeze').onclick=()=>{live=play=false;$('live').classList.remove('on');$('play').classList.remove('on');$('mode').textContent='FROZEN'};$('play').onclick=()=>{play=!play;$('play').classList.toggle('on',play);$('mode').textContent=play?'PLAY':'READY'};$('photo').onclick=()=>{renderer.render(scene,camera);let url=c.toDataURL('image/png');$('photoPreview').src=url;$('photoModal').style.display='flex';window.__photoURL=url;c.style.filter='brightness(2.1)';setTimeout(()=>c.style.filter='',90)};
+$('skin').onchange=()=>skin.color.set({tan:0xb87552,neutral:0xc88e72,deep:0x704632}[$('skin').value]);$('live').onclick=()=>{live=!live;$('live').classList.toggle('on',live);$('mode').textContent=live?'LIVE PHYSICS':'READY'};$('freeze').onclick=()=>{live=play=false;$('live').classList.remove('on');$('play').classList.remove('on');$('mode').textContent='FROZEN'};$('play').onclick=()=>{play=!play;$('play').classList.toggle('on',play);$('mode').textContent=play?'PLAY':'READY'};$('photo').onclick=()=>{
+ renderer.render(scene,camera);
+ const p=$('photoPreview'),ctx=p.getContext('2d');
+ p.width=c.width;p.height=c.height;
+ ctx.drawImage(c,0,0,p.width,p.height);
+ $('photoModal').style.display='flex';
+ $('photoStatus').textContent='PHOTO CAPTURED · '+p.width+'×'+p.height;
+ c.style.filter='brightness(2.1)';setTimeout(()=>c.style.filter='',90);
+};
 $('closePhoto').onclick=()=>{$('photoModal').style.display='none'};
-$('savePhoto').onclick=()=>{let a=document.createElement('a');a.href=window.__photoURL;a.download='Virtual-Studio-v06-'+Date.now()+'.png';document.body.appendChild(a);a.click();a.remove()};document.querySelectorAll('.cb').forEach(b=>b.onclick=()=>{document.querySelectorAll('.cb').forEach(x=>x.classList.remove('on'));b.classList.add('on');let q=cams[+b.dataset.i];yaw=q[0];pitch=q[1];dist=q[2];$('cam').textContent='0'+(+b.dataset.i+1)});
+$('savePhoto').onclick=()=>{
+ const p=$('photoPreview');
+ p.toBlob(blob=>{
+   if(!blob){$('photoStatus').textContent='SAVE ERROR';return}
+   const u=URL.createObjectURL(blob),a=document.createElement('a');
+   a.href=u;a.download='Virtual-Studio-v061-'+Date.now()+'.png';
+   document.body.appendChild(a);a.click();a.remove();
+   setTimeout(()=>URL.revokeObjectURL(u),1500);
+   $('photoStatus').textContent='PNG READY / SAVED';
+ },'image/png');
+};a.href=window.__photoURL;a.download='Virtual-Studio-v06-'+Date.now()+'.png';document.body.appendChild(a);a.click();a.remove()};document.querySelectorAll('.cb').forEach(b=>b.onclick=()=>{document.querySelectorAll('.cb').forEach(x=>x.classList.remove('on'));b.classList.add('on');let q=cams[+b.dataset.i];yaw=q[0];pitch=q[1];dist=q[2];$('cam').textContent='0'+(+b.dataset.i+1)});
 renderer.domElement.onpointerdown=e=>{drag=true;lx=e.clientX;ly=e.clientY;renderer.domElement.setPointerCapture(e.pointerId)};renderer.domElement.onpointermove=e=>{if(!drag)return;yaw-=(e.clientX-lx)*.006;pitch=Math.max(-.35,Math.min(.55,pitch+(e.clientY-ly)*.004));lx=e.clientX;ly=e.clientY};renderer.domElement.onpointerup=()=>drag=false;renderer.domElement.onwheel=e=>{e.preventDefault();dist=Math.max(3,Math.min(9,dist+e.deltaY*.005))};
 </script></body></html>
