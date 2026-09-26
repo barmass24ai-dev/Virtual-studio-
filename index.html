@@ -1,9 +1,9 @@
-<!doctype html><html lang="it"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no"><title>Virtual Studio v0.8</title>
+<!doctype html><html lang="it"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no"><title>Virtual Studio v0.9</title>
 <style>*{box-sizing:border-box}body{margin:0;overflow:hidden;background:#090d13;color:#eef4fa;font:14px system-ui}header{height:56px;display:flex;align-items:center;gap:7px;padding:8px 12px;background:#111822;border-bottom:1px solid #293747}.brand{font-weight:800;margin-right:auto;letter-spacing:.08em}.brand b{color:#67dcff}button,select{background:#1b2734;color:white;border:1px solid #3b4d61;border-radius:8px;padding:8px}.on{background:#174455;border-color:#67dcff}.main{height:calc(100vh - 140px);display:grid;grid-template-columns:210px 1fr 225px}.panel{background:#141c26;padding:12px;overflow:auto}.view{position:relative;touch-action:none;border-left:1px solid #293747;border-right:1px solid #293747}canvas{display:block;width:100%;height:100%}h3{font-size:12px;color:#6bdcff;letter-spacing:.08em}label{display:block;color:#9cabbc;margin-top:12px;font-size:12px}input{width:100%}.val{float:right;color:white}.cams{display:grid;grid-template-columns:1fr 1fr;gap:6px}.hud{position:absolute;top:10px;left:10px;background:#071019cc;padding:8px;border-radius:7px}.hint{position:absolute;right:10px;bottom:10px;color:#aab6c3}.note{font-size:12px;color:#95a4b5;line-height:1.4;margin-top:15px}.timeline{height:84px;background:#101720;border-top:1px solid #293747;padding:10px 14px}.track{height:35px;border:1px solid #34465a;margin-top:8px;position:relative;background:repeating-linear-gradient(90deg,#17212d 0 49px,#293747 50px)}#head{position:absolute;height:100%;width:2px;background:#ffd166}@media(max-width:820px){.main{grid-template-columns:175px 1fr 185px}.panel{padding:9px}}#importGLB{width:100%;margin-top:10px}.assetStatus{font-size:11px;color:#86dfff;margin-top:7px;min-height:16px}</style></head><body>
-<header><div class="brand">VIRTUAL STUDIO <b>v0.8 • AUTO CHARACTER SETUP</b></div><button id="live">LIVE</button><button id="freeze">FREEZE</button><button id="play">PLAY</button><button id="photo">PHOTO</button></header>
+<header><div class="brand">VIRTUAL STUDIO <b>v0.9 • HAIR DYNAMICS 2</b></div><button id="live">LIVE</button><button id="freeze">FREEZE</button><button id="play">PLAY</button><button id="photo">PHOTO</button></header>
 <div class="main"><aside class="panel"><h3>CHARACTER</h3><label>Body rotation <span class="val" id="rv">0°</span></label><input id="rot" type="range" min="-180" max="180" value="0"><label>Left arm <span class="val" id="lv">12°</span></label><input id="la" type="range" min="-45" max="70" value="12"><label>Right arm <span class="val" id="av">-12°</span></label><input id="ra" type="range" min="-70" max="45" value="-12"><label>Left elbow <span class="val" id="lev">0°</span></label><input id="le" type="range" min="-110" max="20" value="0"><label>Right elbow <span class="val" id="rev">0°</span></label><input id="re" type="range" min="-20" max="110" value="0"><label>Head <span class="val" id="hdv">0°</span></label><input id="hd" type="range" min="-45" max="45" value="0"><label>Skin tone</label><select id="skin"><option value="tan">Amber / tan</option><option value="neutral">Neutral</option><option value="deep">Deep</option></select><button id="importGLB">IMPORT CHARACTER .GLB</button><input id="glbFile" type="file" accept=".glb" hidden><div class="assetStatus" id="assetStatus">Procedural fallback active</div><div class="note"><div id="autoSetup" style="margin:10px 0;color:#9fdfff;font-size:11px;line-height:1.45">AUTO SETUP · importa un GLB</div>Corpo procedurale di sicurezza: resta attivo se l’import GLB fallisce.</div></aside>
-<main class="view" id="view"><div class="hud">CAM <b id="cam">01</b> · <span id="mode">READY</span><br><span id="fps">HAIR 960 STRANDS</span></div><div class="hint">Trascina: orbita · rotella/pizzica: zoom</div></main>
-<aside class="panel"><h3>HAIR PHYSICS LAB</h3><div class="cams"><button class="cb on" data-i="0">CAM 01</button><button class="cb" data-i="1">CAM 02</button><button class="cb" data-i="2">CAM 03</button><button class="cb" data-i="3">CAM 04</button></div><label>Hair length <span class="val" id="hlv">1.00</span></label><input id="hairLen" type="range" min=".55" max="1.25" step=".01" value="1"><label>Wind <span class="val" id="wv">0.7</span></label><input id="wind" type="range" min="0" max="2.5" step=".1" value=".7"><label>Inertia <span class="val" id="iv">0.84</span></label><input id="inertia" type="range" min=".55" max=".98" step=".01" value=".84"><label>Face cover <span class="val" id="fcv">20%</span></label><input id="faceCover" type="range" min="0" max="100" value="20"><label>Scalp Y fine <span class="val" id="sfv">0.00</span></label><input id="scalpFit" type="range" min="-20" max="20" value="0"><div class="note">AUTO CHARACTER SETUP dimensiona scalp e Hair Anchor dal personaggio importato. Scalp Y fine resta come calibrazione opzionale.</div></aside></div>
+<main class="view" id="view"><div class="hud">CAM <b id="cam">01</b> · <span id="mode">READY</span><br><span id="fps">HAIR 1800 STRANDS</span></div><div class="hint">Trascina: orbita · rotella/pizzica: zoom</div></main>
+<aside class="panel"><h3>HAIR PHYSICS LAB</h3><div class="cams"><button class="cb on" data-i="0">CAM 01</button><button class="cb" data-i="1">CAM 02</button><button class="cb" data-i="2">CAM 03</button><button class="cb" data-i="3">CAM 04</button></div><label>Hair length <span class="val" id="hlv">1.00</span></label><input id="hairLen" type="range" min=".55" max="1.25" step=".01" value="1"><label>Wind <span class="val" id="wv">0.7</span></label><input id="wind" type="range" min="0" max="2.5" step=".1" value=".7"><label>Inertia (body linked) <span class="val" id="iv">0.84</span></label><input id="inertia" type="range" min=".55" max=".98" step=".01" value=".84"><label>Face cover <span class="val" id="fcv">20%</span></label><input id="faceCover" type="range" min="0" max="100" value="20"><label>Scalp Y fine <span class="val" id="sfv">0.00</span></label><input id="scalpFit" type="range" min="-20" max="20" value="0"><div class="note">AUTO SCALP + BODY LINKED PHYSICS. 1800 radici aderenti alla scalp completa; movimento di testa/corpo genera inerzia sulle lunghezze. Scalp Y fine resta opzionale.</div><div style="margin-top:10px;padding:8px;border:1px solid #28516a;border-radius:7px;color:#54e67a;font-size:11px">FULL SCALP ✓ · BODY-LINKED HAIR ✓</div></aside></div>
 <footer class="timeline"><b>TIMELINE</b> <span id="time">00:00.00</span><div class="track"><div id="head"></div></div></footer>
 <script type="module">
 import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js';
@@ -33,30 +33,56 @@ const HAIR_CENTER=new THREE.Vector3(0,2.27,-.015);
 const hairAnchor=new THREE.Group(); hairAnchor.name='HairHeadAnchor'; hairAnchor.position.copy(HAIR_CENTER); person.add(hairAnchor);
 let scalp=new THREE.Mesh(new THREE.SphereGeometry(1,32,20,0,Math.PI*2,0,Math.PI*.48),scalpMat);
 scalp.scale.set(.265,.345,.275); scalp.visible=false; hairAnchor.add(scalp);
-const hairs=[];const COUNT=960;
+const hairs=[];const COUNT=1800;
 for(let i=0;i<COUNT;i++){
-  // REAL SCALP MAPPING: roots wrap crown, temples, sides and nape.
-  let side=i%2?-1:1;
-  let u=Math.random(), v=Math.random();
-  let az=side*(.10 + Math.pow(u,.72)*1.42);
-  let front=Math.random()<.20;
-  let phi=front ? (.20+v*.72) : (-.82+v*1.30);
+  // v0.9 FULL SCALP: every strand root lies on the invisible ellipsoidal scalp.
+  const side=i%2?-1:1;
+  const crown=Math.random();
+  // theta runs from centre part toward ear; phi runs front hairline -> nape.
+  const theta=side*(0.035 + Math.pow(Math.random(),.82)*1.48);
+  const phi=-1.00 + Math.pow(Math.random(),.92)*1.88;
   const sx=.245, sy=.285, sz=.235;
-  let rx=Math.sin(az)*sx*Math.cos(phi);
-  let ry=HAIR_CENTER.y + Math.cos(az)*sy*Math.cos(phi);
+  let rx=Math.sin(theta)*sx*Math.cos(phi);
+  let ry=HAIR_CENTER.y + Math.cos(theta)*sy*Math.cos(phi);
   let rz=HAIR_CENTER.z + Math.sin(phi)*sz;
-  // off-centre part: open a narrow channel instead of a helmet cap
-  rx += .025 + side*(.018+Math.random()*.012);
-  if(phi>.42) ry-=(phi-.42)*.030;
-  if(phi<-.42) ry-=(-phi-.42)*.020;
-  let root=new THREE.Vector3(rx-HAIR_CENTER.x,ry-HAIR_CENTER.y,rz-HAIR_CENTER.z);
-  let len=.92+Math.random()*.48;
-  let pts=[];for(let j=0;j<12;j++)pts.push(new THREE.Vector3());
-  let geo=new THREE.BufferGeometry().setFromPoints(pts),line=new THREE.Line(geo,hairMat);hairAnchor.add(line);
-  hairs.push({line,root,len,side,front,phase:Math.random()*6.28,spread:(Math.random()-.5)*.055,guide:Math.floor(i/30),phi});
+  // Narrow off-centre part only; no bald crown gap.
+  rx += .018 + side*.006;
+  // Natural front hairline and lower nape.
+  if(phi>.58) ry-=(phi-.58)*.050;
+  if(phi<-.58) ry-=(-phi-.58)*.040;
+  const root=new THREE.Vector3(rx-HAIR_CENTER.x,ry-HAIR_CENTER.y,rz-HAIR_CENTER.z);
+  const len=.98+Math.random()*.40;
+  const pts=[];for(let j=0;j<14;j++)pts.push(root.clone());
+  const geo=new THREE.BufferGeometry().setFromPoints(pts);
+  const line=new THREE.Line(geo,hairMat);hairAnchor.add(line);
+  hairs.push({line,root,len,side,front:phi>.42,phase:Math.random()*6.28,
+              spread:(Math.random()-.5)*.035,phi,velX:0,velZ:0,offX:0,offZ:0});
 }
 let yaw=0,pitch=.05,dist=5.2,live=false,play=false,t=0,last=performance.now(),drag=false,lx=0,ly=0;
-function updateHair(){
+let prevHeadWorld=new THREE.Vector3(),prevHeadQuat=new THREE.Quaternion(),motionReady=false;
+let bodyHairVX=0,bodyHairVZ=0,bodyHairX=0,bodyHairZ=0,lastT=performance.now();
+function characterHairMotion(){
+ if(!rig.head||!rig.root)return;
+ const now=performance.now(),dt=Math.min(.04,Math.max(.008,(now-lastT)/1000));lastT=now;
+ const p=rig.head.getWorldPosition(new THREE.Vector3());
+ const q=rig.head.getWorldQuaternion(new THREE.Quaternion());
+ if(!motionReady){prevHeadWorld.copy(p);prevHeadQuat.copy(q);motionReady=true;return;}
+ const dx=p.x-prevHeadWorld.x,dz=p.z-prevHeadWorld.z;
+ const dq=prevHeadQuat.clone().invert().multiply(q);
+ const e=new THREE.Euler().setFromQuaternion(dq,'YXZ');
+ const impulseX=(-dx*18 - e.y*.12), impulseZ=(-dz*18 + e.x*.10);
+ const inertia=+$('inertia').value;
+ bodyHairVX += impulseX*(.35+inertia*.75);
+ bodyHairVZ += impulseZ*(.35+inertia*.75);
+ const spring=18-(inertia*10), damp=.86-(inertia*.16);
+ bodyHairVX += -bodyHairX*spring*dt; bodyHairVZ += -bodyHairZ*spring*dt;
+ bodyHairVX*=Math.pow(damp,dt*60);bodyHairVZ*=Math.pow(damp,dt*60);
+ bodyHairX+=bodyHairVX*dt;bodyHairZ+=bodyHairVZ*dt;
+ bodyHairX=THREE.MathUtils.clamp(bodyHairX,-.28,.28);
+ bodyHairZ=THREE.MathUtils.clamp(bodyHairZ,-.22,.22);
+ prevHeadWorld.copy(p);prevHeadQuat.copy(q);
+}
+function updateHair(){characterHairMotion();
  let L=+$('hairLen').value,W=+$('wind').value,I=+$('inertia').value,F=+$('faceCover').value/100;
  for(const h of hairs){let arr=h.line.geometry.attributes.position.array;
   for(let j=0;j<12;j++){let q=j/11,q2=q*q,smooth=q*q*(3-2*q);
